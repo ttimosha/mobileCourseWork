@@ -20,8 +20,9 @@
 
     <Button
         android:id="@+id/register_button"
-        android:layout_width="123dp"
-        android:layout_height="54dp"
+        android:layout_width="176dp"
+        android:layout_height="52dp"
+        android:onClick="onClickRegistration"
         android:text="Регистрация"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,8 +33,9 @@
 
     <Button
         android:id="@+id/login_button"
-        android:layout_width="121dp"
-        android:layout_height="53dp"
+        android:layout_width="176dp"
+        android:layout_height="47dp"
+        android:onClick="onClickLogin"
         android:text="Вход"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,8 +46,8 @@
 
     <Button
         android:id="@+id/test_button"
-        android:layout_width="122dp"
-        android:layout_height="55dp"
+        android:layout_width="181dp"
+        android:layout_height="52dp"
         android:text="Пройти тест"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,4 +55,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.208" />
+
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClickLogout"
+        android:text="Выйти"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.941" />
 </androidx.constraintlayout.widget.ConstraintLayout>

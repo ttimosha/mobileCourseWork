@@ -5,17 +5,19 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 
-var previousQuestion: Button? = null
-var backToStart: Button? = null
-var option1: Button? = null
-var option2: Button? = null
-var option3: Button? = null
-var option4: Button? = null
-var timer: TextView? = null
-var questionNumber: TextView? = null
-var questionText: TextView? = null
+
 
 class TestingQuestions : AppCompatActivity() {
+    var previousQuestion: Button? = null
+    var backToStart: Button? = null
+    var option1: Button? = null
+    var option2: Button? = null
+    var option3: Button? = null
+    var option4: Button? = null
+    var timer: TextView? = null
+    var questionNumber: TextView? = null
+    var questionText: TextView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         previousQuestion = findViewById(R.id.previous_button)
         backToStart = findViewById(R.id.back_button)
