@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "568188310249",
+    "firebase_url": "https://mobile-course-work.firebaseio.com",
+    "project_id": "mobile-course-work",
+    "storage_bucket": "mobile-course-work.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:568188310249:android:32e67c0bb31f473297d678",
+        "android_client_info": {
+          "package_name": "com.example.testcoursach"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "568188310249-vqn4dgts3v8abhlngkj2e7am4oc3p3km.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.testcoursach",
+            "certificate_hash": "08686488ea7ba4c84b2fb48cc2bf410fc3dc62a8"
+          }
+        },
+        {
+          "client_id": "568188310249-b8jrqb1v7aftgcf20ecb5khir207c2m8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeWGxcP40F8-J19KW8TDNWarsdRC1es_4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "568188310249-b8jrqb1v7aftgcf20ecb5khir207c2m8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

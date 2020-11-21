@@ -23,25 +23,27 @@
         android:id="@+id/startTest_button"
         android:layout_width="193dp"
         android:layout_height="50dp"
+        android:onClick="onClickTest"
         android:text="Начать прохождение"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.435"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.415" />
+        app:layout_constraintVertical_bias="0.925" />
 
     <TextView
         android:id="@+id/description"
-        android:layout_width="193dp"
-        android:layout_height="55dp"
-        android:text="Описание теста"
+        android:layout_width="366dp"
+        android:layout_height="394dp"
+        android:text="Тест Спилбергера состоит из 20 высказываний, относящихся к тревожности как состоянию (состояние тревожности, реактивная или ситуативная тревожность) и из 20 высказываний на определение тревожности как диспозиции, личностной особенности (свойство тревожности). Обследуемому предлагается — «Прочитайте внимательно каждое из приведенных предложений и зачеркните соответствующую цифру справа. Над вопросами долго не задумывайтесь. Обычно первый ответ, который приходит в голову, является наиболее правильным, адекватным Вашему состоянию»"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.169"
+        app:layout_constraintHorizontal_bias="0.644"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintVertical_bias="0.676" />
 
     <Button
         android:id="@+id/back_button"
