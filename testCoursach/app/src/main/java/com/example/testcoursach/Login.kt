@@ -58,4 +58,8 @@ class Login : AppCompatActivity() {
     fun onClickRegistration(view: View?) {
         startActivity(Intent(this, Registration::class.java))
     }
+
+    fun onClickBack(view: View?) {
+        startActivity(Intent(this, MainMenu::class.java))
+    }
 }

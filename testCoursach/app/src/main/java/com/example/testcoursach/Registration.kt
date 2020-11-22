@@ -76,4 +76,8 @@ class Registration : AppCompatActivity() {
                 }
             }
     }
+
+    fun onClickBack(view: View?) {
+        startActivity(Intent(this, MainMenu::class.java))
+    }
 }

@@ -21,4 +21,8 @@ class TestingMenu : AppCompatActivity() {
     fun onClickTest(view: View?) {
         startActivity(Intent(this, TestingQuestions::class.java))
     }
+
+    fun onClickBack(view: View?) {
+        startActivity(Intent(this, MainMenu::class.java))
+    }
 }
