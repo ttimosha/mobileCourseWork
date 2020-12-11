@@ -9,12 +9,8 @@ import android.widget.TextView
 
 
 class TestingMenu : AppCompatActivity() {
-    var startTestButton: Button? = null
-    var backToMenu: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        startTestButton = findViewById(R.id.startTest_button)
-        backToMenu = findViewById(R.id.back_button)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.testing_menu)
     }

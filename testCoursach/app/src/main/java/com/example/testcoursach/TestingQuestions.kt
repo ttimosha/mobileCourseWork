@@ -11,6 +11,10 @@ import android.widget.Button
 import android.widget.Chronometer
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.testing_questions.*
@@ -33,15 +37,23 @@ class TestingQuestions : AppCompatActivity() {
     private var currentP = 0
     private var RT = 0
     private var LT = 0
-    private var chrom by Delegates.notNull<Long>()
+    private var user: FirebaseUser? = null
+    private var answersMap: MutableMap<String?, Int> = mutableMapOf()
+    private var questionsList: MutableList<String> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.testing_questions)
-        chronometer.start()
-        db.collection("questions").document("question1").get()
-                .addOnSuccessListener { document ->
-                    question_text!!.text = document.getString("question")
+        user = Firebase.auth.currentUser
+        previous_button.visibility = Button.INVISIBLE
+        db.collection("questions").get()
+                .addOnSuccessListener { result ->
+                    for (document in result) {
+                        questionsList.add(document.getString("question")!!)
+                    }
+                    question_text!!.text = questionsList[0]
+                    updateUI(true)
+                    chronometer.start()
                 }
                 .addOnFailureListener{ exception ->
                     Log.w(TAG, "Error getting documents.", exception)
@@ -51,22 +63,19 @@ class TestingQuestions : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     fun onClickAns(view: View?) {
         var button: Button = view as Button
-        val points = checkPoits(button.id)
+        val points = checkPoints(button.id)
         if (rt_1.contains(currentQ)) sum_rt_1+=points
         else if (rt_2.contains(currentQ)) sum_rt_2+=points
         else if (lt_1.contains(currentQ)) sum_lt_1+=points
         else if (lt_2.contains(currentQ)) sum_lt_2+=points
         currentP = points
+        answersMap.plusAssign(questionsList[currentQ-1] to currentP)
+
         if (currentQ !=40) {
             currentQ+= 1
+            updateUI(true)
             question_number.text = "Вопрос $currentQ из 40"
-            db.collection("questions").document("question$currentQ").get()
-                    .addOnSuccessListener { document ->
-                        question_text!!.text = document.getString("question")
-                    }
-                    .addOnFailureListener{ exception ->
-                        Log.w(TAG, "Error getting documents.", exception)
-                    }
+            question_text!!.text = questionsList[currentQ-1]
             return
         } else {
             updateUI(false)
@@ -77,21 +86,21 @@ class TestingQuestions : AppCompatActivity() {
                     "от 46 баллов и выше - высоким. Минимальная оценка по каждой шкале - 20 баллов, максимальная - 80 баллов."
             return
         }
-
     }
 
     @SuppressLint("SetTextI18n")
     fun onClickPrevious (view: View?) {
-        updateUI(true)
         currentQ-=1
+        updateUI(true)
         question_number.text = "Вопрос $currentQ из 40"
-        db.collection("questions").document("question$currentQ").get()
-                .addOnSuccessListener { document ->
-                    question_text!!.text = document.getString("question")
-                }
-                .addOnFailureListener{ exception ->
-                    Log.w(TAG, "Error getting documents.", exception)
-                }
+        question_text!!.text = questionsList[currentQ-1]
+        when (answersMap[questionsList[currentQ-1]]) {
+            1 -> option1.text = option1.text.toString() + "\n(предыдущий ответ)"
+            2 -> option2.text = option2.text.toString() + "\n(предыдущий ответ)"
+            3 -> option3.text = option3.text.toString() + "\n(предыдущий ответ)"
+            4 -> option4.text = option4.text.toString() + "\n(предыдущий ответ)"
+        }
+
         if (rt_1.contains(currentQ)) sum_rt_1-=currentP
         else if (rt_2.contains(currentQ)) sum_rt_2-=currentP
         else if (lt_1.contains(currentQ)) sum_lt_1-=currentP
@@ -111,10 +120,55 @@ class TestingQuestions : AppCompatActivity() {
                 }
         val alert = builder.create()
         alert.show()
+    }
+
+    fun onClickRestart(view: View?) {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage("Вы уверены, что хотите перепройти тест? Результаты данного прохождения не сохранятся.")
+                .setCancelable(false)
+                .setPositiveButton("Да") { dialog, id ->
+                    finish()
+                    startActivity(intent)
+                }
+                .setNegativeButton("Нет") { dialog, id ->
+                    dialog.dismiss()
+                }
+        val alert = builder.create()
+        alert.show()
 
     }
 
-    private fun checkPoits(buttonId: Int): Int {
+    fun onClickSave(view: View?) {
+        if (user != null) {
+            val data = hashMapOf(
+                    "answers" to answersMap,
+                    "RT" to RT,
+                    "LT" to LT,
+                    "uid" to user!!.uid,
+                    "date" to Timestamp.now()
+            )
+
+            db.collection("answers")
+                    .add(data)
+                    .addOnSuccessListener { documentReference ->
+                        Log.d(TAG, "DocumentSnapshot written with ID: ${documentReference.id}")
+                        val builder = AlertDialog.Builder(this)
+                        builder.setMessage("Успешно сохранено")
+                                .setCancelable(false)
+                                .setPositiveButton("ОК") { dialog, id ->
+                                    finish()
+                                }
+                        val alert = builder.create()
+                        alert.show()
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w(TAG, "Error adding document", e)
+                    }
+        }
+        else finish()
+    }
+
+    private fun checkPoints(buttonId: Int): Int {
         when(buttonId) {
             R.id.option1 -> return 1
             R.id.option2 -> return 2
@@ -128,9 +182,19 @@ class TestingQuestions : AppCompatActivity() {
         if (visibility) {
             result.text = ""
             option1.visibility = Button.VISIBLE
+            option1.text = "Нет, это не так"
             option2.visibility = Button.VISIBLE
+            option2.text = "Пожалуй так"
             option3.visibility = Button.VISIBLE
+            option3.text = "Верно"
             option4.visibility = Button.VISIBLE
+            option4.text = "Совершенно верно"
+            restart.visibility = Button.INVISIBLE
+            save.visibility = Button.INVISIBLE
+            if (currentQ == 1)
+                previous_button.visibility = Button.INVISIBLE
+            else previous_button.visibility = Button.VISIBLE
+
         } else {
             question_text.text = ""
             question_number.text = ""
@@ -138,6 +202,9 @@ class TestingQuestions : AppCompatActivity() {
             option2.visibility = Button.INVISIBLE
             option3.visibility = Button.INVISIBLE
             option4.visibility = Button.INVISIBLE
+            restart.visibility = Button.VISIBLE
+            save.visibility = Button.VISIBLE
+            if (user==null) textView10.visibility = TextView.VISIBLE
         }
     }
 }

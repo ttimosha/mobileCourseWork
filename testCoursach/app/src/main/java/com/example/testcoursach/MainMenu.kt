@@ -23,12 +23,12 @@ class MainMenu : AppCompatActivity() {
         startActivity(Intent(this, TestingMenu::class.java))
     }
 
-    fun onClickLogin(view: View?) {
-        startActivity(Intent(this, Login::class.java))
+    fun onClickStat(view: View?) {
+        startActivity(Intent(this, Statistics::class.java))
     }
 
-    fun onClickRegistration(view: View?) {
-        startActivity(Intent(this, Registration::class.java))
+    fun onClickLogin(view: View?) {
+        startActivity(Intent(this, Login::class.java))
     }
 
    fun onClickLogout (view: View?) {
@@ -41,13 +41,13 @@ class MainMenu : AppCompatActivity() {
         if (user != null) {
             // User is signed in
             login_button.visibility = Button.INVISIBLE
-            register_button.visibility = Button.INVISIBLE
             logout_button.visibility = Button.VISIBLE
+            statistics.visibility = Button.VISIBLE
         } else {
             // No user is signed in
             login_button.visibility = Button.VISIBLE
-            register_button.visibility = Button.VISIBLE
             logout_button.visibility = Button.INVISIBLE
+            statistics.visibility = Button.INVISIBLE
         }
     }
 
