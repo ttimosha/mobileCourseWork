@@ -42,7 +42,8 @@ class Adapter(private val context: Context,
         val df = SimpleDateFormat("dd/MM/yyyy HH:mm")
         var date = df.format(answer.date.toDate())
         holder.largeText.text = "Дата прохождения: $date"
-        holder.smallText.text = "Ситуативная тревожность RT =  ${answer.RT}\nЛичностная тревожность LT = ${answer.LT}\n\nНажмите для подробной информации"
+        if (answer.uid.isNotEmpty()) holder.smallText.text = "Ситуативная тревожность RT =  ${answer.RT}\nЛичностная тревожность LT = ${answer.LT}\nUid: ${answer.uid}\nНажмите для подробной информации"
+            else holder.smallText.text = "Ситуативная тревожность RT =  ${answer.RT}\nЛичностная тревожность LT = ${answer.LT}\n\nНажмите для подробной информации"
 
         holder.itemView.setOnClickListener {
             val map = answer.answers as HashMap

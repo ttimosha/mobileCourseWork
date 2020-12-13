@@ -25,9 +25,8 @@ class Statistics : AppCompatActivity() {
         setContentView(R.layout.activity_statistics)
         user = Firebase.auth.currentUser
         if (user!=null) {
-            if (user!!.uid==" 90uVJp2BwChx82xwl5DUTEbQvXe2")  {
-                db.collection("answers")
-                        .get()
+            if (user!!.uid=="90uVJp2BwChx82xwl5DUTEbQvXe2")  {
+                db.collection("answers").get()
                         .addOnSuccessListener { result ->
                             for (document in result) {
                                 Log.d(TAG, "${document.id} => ${document.data}")
